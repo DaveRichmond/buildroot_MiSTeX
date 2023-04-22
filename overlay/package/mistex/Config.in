@@ -1,0 +1,8 @@
+config BR2_PACKAGE_MISTEX
+	bool "mistex"
+	select BR2_PACKAGE_HOST_PYTHON3
+	select BR2_PACKAGE_LIBGPIOD
+	select BR2_PACKAGE_IMLIB2
+	select BR2_PACKAGE_BLUEZ5_UTILS
+	help
+		the mistex binary package

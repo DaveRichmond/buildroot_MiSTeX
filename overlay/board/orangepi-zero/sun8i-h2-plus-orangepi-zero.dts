@@ -81,6 +81,7 @@
 		};
 	};
 
+
 	reg_vcc_wifi: reg_vcc_wifi {
 		compatible = "regulator-fixed";
 		regulator-min-microvolt = <3300000>;
@@ -111,6 +112,7 @@
 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>;
 		post-power-on-delay-ms = <200>;
 	};
+
 };
 
 &cpu0 {
@@ -231,9 +233,80 @@
 &spi1 {
 	status = "okay";
 
+
 	spidev@0 {
-		compatible = "rohm,dh2228fv";
+		compatible = "generic,spidev";
 		reg = <0>;
 		spi-max-frequency = <10000000>;
+	};
+};
+&pio {
+	gpio-line-names =
+		/* PA */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "FPGA-RESET", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PB */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "IO-EN", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PC */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PD */
+		"", "", "", "", "", "", "", "OSD-EN", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PE */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "FPGA-EN",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PF */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		/* PG */
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "";
+	fpga-reset-pins {
+		gpio-hog;
+		line-name = "mistex:fpga:reset";
+		//gpios = <0 10>; // PA10
+		gpios = <10 GPIO_ACTIVE_HIGH>;
+		output-high;
+		pins = "PA10";
+	};
+	fpga-en {
+		gpio-hog;
+		line-name = "mistex:fpga:en";
+		//gpios = <4 15>; // SPI1_CS (E15)
+		gpios = <143 GPIO_ACTIVE_HIGH>;
+		output-high;
+		pins = "PE15";
+	};
+	osd-en {
+		gpio-hog;
+		line-name = "mistex:fpga:osd";
+		//gpios = <3 6>; // UART2_RTS (D6)
+		gpios = <102 GPIO_ACTIVE_HIGH>;
+		output-high;
+		pins = "PD6";
+	};
+	io-en {
+		gpio-hog;
+		line-name = "mistex:fpga:io";
+		//gpios = <1 13>; // TWI1_SCK (B13)
+		gpios = <45 GPIO_ACTIVE_HIGH>;
+		output-high;
+		pins = "PB13";
 	};
 };
